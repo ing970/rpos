@@ -1,0 +1,40 @@
+﻿{
+  "NetworkAdapters" : ["enp3s0"], 
+  "IpAddress" : "192.168.11.105", 
+  "ServicePort" : 8084, 
+  "Username" : "lsm",  
+  "Password" : "1234",  
+  "CameraType" : "usbcam",  
+  "CameraDevice" : "/dev/video0",  
+  "RTSPAddress" : "192.168.11.105",  
+  "RTSPPort" : 8667, 
+  "RTSPName" : "h264",
+  "MulticastEnabled"  : false,  
+  "MulticastEnabledComment" : "## 멀티캐스트는 USB 카메라를 지원합니다.",
+  "RTSPMulticastName" : "h264m",
+  "MulticastAddress"  : "224.0.0.1",
+  "MulticastPort"     : "10001",
+  "RTSPServer" : 3, 
+  "RtspServerComment" : "## RTSP 서버 선택 > 1:RPOS RTSP 서버 2:V4L2 RTSP 서버 by mpromonet (MulticastEnabled=true 시 자동 선택) 3:GStreamer",
+  "PTZDriver" : "none", 
+  "PTZDriverComment": "## 유효한 값은 none, tenx, pelcod, visca, pan-tilt-hat 입니다.",
+  "PTZOutput" : "none",  
+  "PTZOutputComment": "## 값은 none (예: Tenx), serial, tcp 입니다.",
+  "PTZSerialPort" : "", 
+  "PTZSerialPortSettings" : { 
+    "baudRate": 9600, 
+    "dataBits": 8, 
+    "parity": "none", 
+    "stopBits": 1 
+  },
+  "PTZOutputURL": "",
+  "PTZCameraAddress": 1,
+  "DeviceInformation" : {
+    "Manufacturer" : "RPOS withrobot Card",
+    "Model" : "Test USBCamera_withrobot",
+    "HardwareId" : "1111"
+  },
+  "logLevel" : 4, 
+  "logLevelComment": "## 로그 레벨 > 1:Error 2:Warning 3:Info 4:Debug",
+  "logSoapCalls" : true
+}
