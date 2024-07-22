@@ -30,7 +30,7 @@
   "PTZOutputURL": "",
   "PTZCameraAddress": 1,
   "DeviceInformation" : {
-    "Manufacturer" : "RPOS withrobot Card",
+    "Manufacturer" : "WITHROBOT chameleon8 ONVIF",
     "Model" : "Test USBCamera_withrobot",
     "HardwareId" : "1111"
   },
