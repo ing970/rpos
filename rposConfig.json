@@ -1,12 +1,12 @@
 ﻿{
-  "NetworkAdapters" : ["enp3s0"], 
-  "IpAddress" : "192.168.11.105", 
+  "NetworkAdapters" : ["eth0"], 
+  "IpAddress" : "192.168.15.115", 
   "ServicePort" : 8084, 
   "Username" : "lsm",  
   "Password" : "1234",  
-  "CameraType" : "usbcam",  
+  "CameraType" : "chameleon",  
   "CameraDevice" : "/dev/video0",  
-  "RTSPAddress" : "192.168.11.105",  
+  "RTSPAddress" : "192.168.15.115",  
   "RTSPPort" : 8667, 
   "RTSPName" : "h264",
   "MulticastEnabled"  : false,  
@@ -31,7 +31,7 @@
   "PTZCameraAddress": 1,
   "DeviceInformation" : {
     "Manufacturer" : "WITHROBOT chameleon8 ONVIF",
-    "Model" : "Test USBCamera_withrobot",
+    "Model" : "chameleon8",
     "HardwareId" : "1111"
   },
   "logLevel" : 4, 

@@ -338,10 +338,6 @@ class StreamServer:
                                 log.error("Illegal codec")
                         launch_str = launch_str + ' )'
 
-                elif self.type == 'chameleon':
-                        log.info("This type is chameleon")
-                        launch_str = '( qtiqmmfsrc camera=0 name=camsrc ! video/x-raw,format=NV12,width=3840,height=2160,framerate=30/1 ! qtic2venc control-rate=VBR-CFR target-bitrate=20000000 ! queue ! h264parse config-interval=-1 ! rtph264pay name=pay0 pt=96 )'
-
                 else: # usbcam USB Camera
                         # Ignore most of the parameters
                         log.info("USB camera ignored most of the parameters")
@@ -414,8 +410,8 @@ class StreamServer:
         def updateConfig(self):
                 #TODO: Manipulate the running pipe rather than destroying and recreating it.
                 log.debug("Updating RTSP Server configuration")
-                retRestart = self.readConfig()
-                self.launch()               
+                self.readConfig()
+                self.launch()
 
 if __name__ == '__main__':
         codec = 0               # Default to H264

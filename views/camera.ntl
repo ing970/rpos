@@ -1,17 +1,285 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>Camera settings</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WITHROBOT chameleon8 ONVIF</title>
+    <style>
+        body {
+            font-family: "Source Sans Pro", sans-serif;
+            background-color: #f0f2f6;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        header img {
+            width: 300px;
+            height: auto;
+        }
+        .container {
+            width: 800px;
+            max-width: 100%;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: left;
+        }
+        h1 {
+            color: #212121;
+            text-align: center;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section h2 {
+            background-color: #d7263d;
+            color: white;
+            padding: 10px;
+            margin: 0 -20px 10px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .form-group-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .form-group-checkbox label {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .form-group-checkbox input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .form-group-checkbox input[type="checkbox"]:checked {
+            background-color: #555555;
+            border: none;
+        }
+        .submit-button {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .submit-button button {
+            background-color: #555555;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .submit-button button:hover {
+            background-color: #333333;
+        }
+        .video-stream {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
-<form method="post">
-    <table>
-        <tbody>
-                {{row}}
-        </tbody>
-    </table>
-    <button type="submit">SET</button>
-</form>
+    <header>
+        <img src="/images/withrobot_web_logo.png" alt="WITHROBOT chameleon8 ONVIF Logo">
+    </header>
+    <div class="container">
+        <h1>WITHROBOT chameleon8 ONVIF</h1>
+        <p class="video-stream"><b>Video Stream:</b> rtsp://username:password@deviceIPaddress:{{RTSPPort}}/{{RTSPName}}</p>
+        <form method="post">
+            <div class="form-section">
+                <h2>User Controls</h2>
+                <div class="form-group">
+                    <label for="brightness">Brightness</label>
+                    <input type="number" id="brightness" name="UserControls.brightness" value="{{UserControls.brightness}}" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="contrast">Contrast</label>
+                    <input type="number" id="contrast" name="UserControls.contrast" value="{{UserControls.contrast}}" min="-100" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="saturation">Saturation</label>
+                    <input type="number" id="saturation" name="UserControls.saturation" value="{{UserControls.saturation}}" min="-100" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="red_balance">Red Balance</label>
+                    <input type="number" id="red_balance" name="UserControls.red_balance" value="{{UserControls.red_balance}}" min="1" max="7999">
+                </div>
+                <div class="form-group">
+                    <label for="blue_balance">Blue Balance</label>
+                    <input type="number" id="blue_balance" name="UserControls.blue_balance" value="{{UserControls.blue_balance}}" min="1" max="7999">
+                </div>
+                <div class="form-group-checkbox">
+                    <label for="horizontal_flip">Horizontal Flip</label>
+                    <input type="checkbox" id="horizontal_flip" name="UserControls.horizontal_flip" {{#if UserControls.horizontal_flip}}checked{{/if}}>
+                </div>
+                <div class="form-group-checkbox">
+                    <label for="vertical_flip">Vertical Flip</label>
+                    <input type="checkbox" id="vertical_flip" name="UserControls.vertical_flip" {{#if UserControls.vertical_flip}}checked{{/if}}>
+                </div>
+                <div class="form-group">
+                    <label for="power_line_frequency">Power Line Frequency</label>
+                    <select id="power_line_frequency" name="UserControls.power_line_frequency">
+                        <option value="50 Hz">50 Hz</option>
+                        <option value="60 Hz">60 Hz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sharpness">Sharpness</label>
+                    <input type="number" id="sharpness" name="UserControls.sharpness" value="{{UserControls.sharpness}}" min="-100" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="color_effects">Color Effects</label>
+                    <select id="color_effects" name="UserControls.color_effects">
+                        <option value="None">None</option>
+                        <!-- 다른 옵션 추가 가능 -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rotate">Rotate</label>
+                    <input type="number" id="rotate" name="UserControls.rotate" value="{{UserControls.rotate}}" min="0" max="360">
+                </div>
+                <div class="form-group">
+                    <label for="color_effects_cbcr">Color Effects CBCR</label>
+                    <input type="number" id="color_effects_cbcr" name="UserControls.color_effects_cbcr" value="{{UserControls.color_effects_cbcr}}" min="0" max="65535">
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>Codec Controls</h2>
+                <div class="form-group">
+                    <label for="video_bitrate_mode">Video Bitrate Mode</label>
+                    <select id="video_bitrate_mode" name="CodecControls.video_bitrate_mode">
+                        <option value="Variable Bitrate">Variable Bitrate</option>
+                        <option value="Constant Bitrate">Constant Bitrate</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="video_bitrate">Video Bitrate</label>
+                    <input type="number" id="video_bitrate" name="CodecControls.video_bitrate" value="{{CodecControls.video_bitrate}}" min="25000" max="25000000">
+                </div>
+                <div class="form-group-checkbox">
+                    <label for="repeat_sequence_header">Repeat Sequence Header</label>
+                    <input type="checkbox" id="repeat_sequence_header" name="CodecControls.repeat_sequence_header" {{#if CodecControls.repeat_sequence_header}}checked{{/if}}>
+                </div>
+                <div class="form-group">
+                    <label for="h264_i_frame_period">H.264 I-Frame Period</label>
+                    <input type="number" id="h264_i_frame_period" name="CodecControls.h264_i_frame_period" value="{{CodecControls.h264_i_frame_period}}" min="0" max="2147483647">
+                </div>
+                <div class="form-group">
+                    <label for="h264_level">H.264 Level</label>
+                    <select id="h264_level" name="CodecControls.h264_level">
+                        <option value="4">4</option>
+                        <!-- 다른 옵션 추가 가능 -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="h264_profile">H.264 Profile</label>
+                    <select id="h264_profile" name="CodecControls.h264_profile">
+                        <option value="High">High</option>
+                        <!-- 다른 옵션 추가 가능 -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>Camera Controls</h2>
+                <div class="form-group-checkbox">
+                    <label for="auto_exposure">Auto Exposure</label>
+                    <input type="checkbox" id="auto_exposure" name="CameraControls.auto_exposure" {{#if CameraControls.auto_exposure}}checked{{/if}}>
+                </div>
+                <div class="form-group">
+                    <label for="exposure_time_absolute">Exposure Time Absolute</label>
+                    <input type="number" id="exposure_time_absolute" name="CameraControls.exposure_time_absolute" value="{{CameraControls.exposure_time_absolute}}" min="0" max="10000">
+                </div>
+                <div class="form-group-checkbox">
+                    <label for="exposure_dynamic_framerate">Exposure Dynamic Framerate</label>
+                    <input type="checkbox" id="exposure_dynamic_framerate" name="CameraControls.exposure_dynamic_framerate" {{#if CameraControls.exposure_dynamic_framerate}}checked{{/if}}>
+                </div>
+                <div class="form-group">
+                    <label for="auto_exposure_bias">Auto Exposure Bias</label>
+                    <input type="number" id="auto_exposure_bias" name="CameraControls.auto_exposure_bias" value="{{CameraControls.auto_exposure_bias}}">
+                </div>
+                <div class="form-group">
+                    <label for="white_balance_auto_preset">White Balance Auto Preset</label>
+                    <select id="white_balance_auto_preset" name="CameraControls.white_balance_auto_preset">
+                        <option value="Auto">Auto</option>
+                        <!-- 다른 옵션 추가 가능 -->
+                    </select>
+                </div>
+                <div class="form-group-checkbox">
+                    <label for="image_stabilization">Image Stabilization</label>
+                    <input type="checkbox" id="image_stabilization" name="CameraControls.image_stabilization" {{#if CameraControls.image_stabilization}}checked{{/if}}>
+                </div>
+                <div class="form-group">
+                    <label for="iso_sensitivity">ISO Sensitivity</label>
+                    <input type="number" id="iso_sensitivity" name="CameraControls.iso_sensitivity" value="{{CameraControls.iso_sensitivity}}">
+                </div>
+                <div class="form-group">
+                    <label for="exposure_metering_mode">Exposure Metering Mode</label>
+                    <select id="exposure_metering_mode" name="CameraControls.exposure_metering_mode">
+                        <option value="Average">Average</option>
+                        <!-- 다른 옵션 추가 가능 -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="scene_mode">Scene Mode</label>
+                    <select id="scene_mode" name="CameraControls.scene_mode">
+                        <option value="None">None</option>
+                        <!-- 다른 옵션 추가 가능 -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>JPG Compression Controls</h2>
+                <div class="form-group">
+                    <label for="compression_quality">Compression Quality</label>
+                    <input type="number" id="compression_quality" name="JPEGCompressionControls.compression_quality" value="{{JPEGCompressionControls.compression_quality}}" min="1" max="100">
+                </div>
+            </div>
+            <div class="submit-button">
+                <button type="submit">SET</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
